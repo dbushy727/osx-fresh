@@ -1,6 +1,15 @@
 # OSX Fresh
 Command line utility to setup a fresh OSX machine.
 
+## Getting started
+### Install from source
+
+```
+$ git clone https://github.com/dbushy727/osx-fresh
+$ cd osx-fresh
+$ bin/setup
+```
+
 ## What does it do?
 OSX Fresh installs all the things you need to start coding. It sets up CLI tools like Homebrew and Oh-My-Zsh as well as Applications like Google Chrome and Slack.
 
