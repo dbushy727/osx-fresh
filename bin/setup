@@ -1,0 +1,15 @@
+#!/bin/zsh
+CURRENT_DIRECTORY="$(dirname "$0")"
+
+source $CURRENT_DIRECTORY/../installers/homebrew.zsh
+source $CURRENT_DIRECTORY/../installers/oh-my-zsh.zsh
+source $CURRENT_DIRECTORY/../installers/git.zsh
+source $CURRENT_DIRECTORY/../installers/node.zsh
+
+install_homebrew
+install_oh_my_zsh
+install_git
+install_node
+
+brew bundle --file=./Brewfile
+echo "Done!"
