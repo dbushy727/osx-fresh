@@ -1,5 +1,26 @@
 #!/bin/zsh
 CURRENT_DIRECTORY="$(dirname "$0")"
+help=0
+
+for arg in "$@"
+do
+    case $arg in
+        -h|--help)
+        help=1
+        shift # Remove --help from processing
+        ;;
+        *)
+        printf "Unknown option %s\n" "$1"
+        exit 1
+        ;;
+    esac
+done
+
+if [ $help = 1 ]; then
+    source $CURRENT_DIRECTORY/../util/help
+    exit 0;
+fi
+
 
 source $CURRENT_DIRECTORY/../installers/homebrew.zsh
 source $CURRENT_DIRECTORY/../installers/oh-my-zsh.zsh
