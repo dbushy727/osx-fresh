@@ -1,5 +1,9 @@
 #!/bin/zsh
-CURRENT_DIRECTORY="$(dirname "$0")"
+quiet_cd() {
+    cd "$@" &>/dev/null || return
+}
+
+CURRENT_DIRECTORY="$(quiet_cd "${0%/*}/" && pwd -P)"
 help=0
 
 for arg in "$@"
