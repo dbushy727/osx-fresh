@@ -1,14 +1,22 @@
 #!/bin/zsh
 
 credentials() {
-    vared -p 'Please enter your git name: ' -c GIT_NAME
-    echo "Git Username: $GIT_NAME"
-    vared -p 'Please enter your git email: ' -c GIT_EMAIL
-    echo "Git Email: $GIT_EMAIL"
+    HAS_NAME=$(git config --global user.name)
+    if [ $? != 0 ]; then
+        vared -p 'Please enter your git name: ' -c GIT_NAME
+        git config --global user.name $GIT_NAME
+        echo "Git Name: $GIT_NAME"
+    fi
 
-    git config --global user.name $GIT_NAME
-    git config --global user.email $GIT_EMAIL
-    echo "Git credentials configured for: $GIT_NAME<$GIT_EMAIL>"
+    HAS_EMAIL=$(git config --global user.email)
+
+    if [ $? != 0 ]; then
+        vared -p 'Please enter your git email: ' -c GIT_EMAIL
+        git config --global user.email $GIT_EMAIL
+        echo "Git Email: $GIT_EMAIL"
+    fi
+
+    echo "Git credentials configured for: $(git config --global user.name)<$(git config --global user.email)>"
 }
 
 config_defaults() {
@@ -35,7 +43,7 @@ ssh_key() {
 install_git() {
     echo "Setting up git."
     credentials
-    defaults
-    config
-    ssh_key
+    # defaults
+    # config
+    # ssh_key
 }
