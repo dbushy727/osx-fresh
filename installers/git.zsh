@@ -20,13 +20,18 @@ credentials() {
 }
 
 config_defaults() {
-    GIT_EDITOR=vim
-    GIT_DEFAULT_BRANCH=main
+    HAS_GIT_EDITOR=$(git config --global core.editor)
+    if [ $? != 0 ]; then
+        vared -p 'Please select your editor of choice (vim, emacs, etc.): ' -c GIT_EDITOR
+        git config --global core.editor $GIT_EDITOR # set vim as default editor
+    fi
 
-    vared -p 'Please select your editor of choice (vim, emacs, etc.): ' -c GIT_EDITOR
-    git config --global core.editor $GIT_EDITOR # set vim as default editor
-    vared -p 'Please select the default branch name for new repositories (main, master, etc.): ' -c GIT_DEFAULT_BRANCH
-    git config --global init.defaultBranch $GIT_DEFAULT_BRANCH # set main as default branch
+    HAS_DEFAULT_BRANCH=$(git config --global init.defaultBranch)
+    if [ $? != 0 ]; then
+        vared -p 'Please select the default branch name for new repositories (main, master, etc.): ' -c GIT_DEFAULT_BRANCH
+        git config --global init.defaultBranch $GIT_DEFAULT_BRANCH # set main as default branch
+    fi
+    
     echo "Git defaults configured!"
 }
 
@@ -43,7 +48,6 @@ ssh_key() {
 install_git() {
     echo "Setting up git."
     credentials
-    # defaults
-    # config
-    # ssh_key
+    config_defaults
+    ssh_key
 }
