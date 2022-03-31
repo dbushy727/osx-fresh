@@ -36,5 +36,5 @@ install_oh_my_zsh
 install_git
 install_node
 
-brew bundle --file=./Brewfile
+brew bundle --file=$CURRENT_DIRECTORY/../Brewfile
 echo "Done!"
