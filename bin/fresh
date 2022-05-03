@@ -4,25 +4,17 @@ quiet_cd() {
 }
 
 CURRENT_DIRECTORY="$(quiet_cd "${0%/*}/" && pwd -P)"
-help=0
 
-for arg in "$@"
-do
-    case $arg in
-        -h|--help)
-        help=1
-        shift # Remove --help from processing
-        ;;
-        *)
-        printf "Unknown option %s\n" "$1"
-        exit 1
-        ;;
-    esac
-done
+code_dir=$HOME/Coding
+zparseopts -D -E -F - p:=code_path -path:=code_path_option h=help -help=help || exit 1
 
-if [ $help = 1 ]; then
-    source $CURRENT_DIRECTORY/../util/help
+if [ $help ]; then
+    source $CURRENT_DIRECTORY/../util/help.zsh
     exit 0;
+fi
+
+if [ $code_path_option[1] ]; then
+    code_dir=$code_path_option[2];
 fi
 
 
@@ -30,11 +22,27 @@ source $CURRENT_DIRECTORY/../installers/homebrew.zsh
 source $CURRENT_DIRECTORY/../installers/oh-my-zsh.zsh
 source $CURRENT_DIRECTORY/../installers/git.zsh
 source $CURRENT_DIRECTORY/../installers/node.zsh
+source $CURRENT_DIRECTORY/../installers/bandwdth.zsh
 
 install_homebrew
 install_oh_my_zsh
 install_git
 install_node
+install_bandwdth $code_dir
 
 brew bundle --file=$CURRENT_DIRECTORY/../Brewfile
-echo "Done!"
+
+cat << 'EOF'
+              _                            _        
+__      _____| | ___ ___  _ __ ___   ___  | |_ ___  
+\ \ /\ / / _ \ |/ __/ _ \| '_ ` _ \ / _ \ | __/ _ \ 
+ \ V  V /  __/ | (_| (_) | | | | | |  __/ | || (_) |
+  \_/\_/ \___|_|\___\___/|_| |_| |_|\___|  \__\___/ 
+                                                    
+ _ _       _     _                         
+| (_) __ _| |__ | |_ _   _  ___  __ _ _ __ 
+| | |/ _` | '_ \| __| | | |/ _ \/ _` | '__|
+| | | (_| | | | | |_| |_| |  __/ (_| | |   
+|_|_|\__, |_| |_|\__|\__, |\___|\__,_|_|
+     |___/           |___/                 
+EOF
