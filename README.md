@@ -7,7 +7,7 @@ Command line utility to setup a fresh OSX machine.
 ```
 $ git clone https://github.com/dbushy727/osx-fresh
 $ cd osx-fresh
-$ bin/setup
+$ bin/fresh
 ```
 
 ## What does it do?
